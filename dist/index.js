@@ -568,8 +568,8 @@ async function startServer() {
     } else {
       serveStatic(app);
     }
-    server.listen(5e3, "0.0.0.0", () => {
-      log(`Server running at http://0.0.0.0:5000`);
+    server.listen(5e3, "localhost", () => {
+      log(`Server running at http://localhost:5000`);
     });
   } catch (error) {
     console.error("Failed to start server:", error);
