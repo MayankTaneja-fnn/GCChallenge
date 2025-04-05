@@ -83,10 +83,14 @@ app.use((req, res, next) => {
     // Listen on port 5000 on all interfaces.
     const port = 5000;
     const host = "localhost";
-    server.listen(port, host, () => {
-      log(`Server running at http://${host}:${port}`);
-    });
-  } catch (error) {
-    console.error("Server failed to start:", error);
-  }
+    if (!process.env.VERCEL) {
+      server.listen(port, host, () => {
+          log(`Server running at http://${host}:${port}`);
+        });
+        } catch (error) {
+          console.error("Server failed to start:", error);
+        }
+      });
+    }
+    
 })();
