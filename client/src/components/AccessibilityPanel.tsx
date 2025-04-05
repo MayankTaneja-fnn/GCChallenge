@@ -61,7 +61,7 @@ export default function AccessibilityPanel() {
             id="font-family-select" 
             className="w-full p-4 border-4 border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-300 transition text-lg bg-white text-gray-900"
             value={fontFamily}
-            onChange={(e) => setFontFamily(e.target.value)}
+            onChange={(e) => setFontFamily(e.target.value as "roboto" | "opendyslexic" | "arial")}
           >
             <option value="opendyslexic">OpenDyslexic</option>
             <option value="roboto">Roboto</option>
