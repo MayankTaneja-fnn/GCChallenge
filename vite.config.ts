@@ -15,7 +15,6 @@ export default defineConfig(async () => {
     themePlugin(),
   ];
 
-  // Only include cartographer plugin in non-production and Replit environments
   if (process.env.NODE_ENV !== "production" && process.env.REPL_ID !== undefined) {
     const { cartographer } = await import("@replit/vite-plugin-cartographer");
     plugins.push(cartographer());
@@ -32,7 +31,7 @@ export default defineConfig(async () => {
     },
     root: path.resolve(__dirname, "client"),
     build: {
-      outDir: path.resolve(__dirname, "dist"), // 👈 now outputs to dist/
+      outDir: path.resolve(__dirname, "dist/client"), // 👈 frontend to dist/client
       emptyOutDir: true,
     },
   };
