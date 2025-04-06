@@ -1,14 +1,15 @@
 {
-  "builds": [
+  "buildCommand": "cd client && npm install && npm run build && cd .. && npm run build",
+  "outputDirectory": "dist",
+  "ignoreCommand": "false",
+  "rewrites": [
     {
-      "src": "server/index.ts",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
+      "source": "/api/(.*)",
+      "destination": "/api/index.ts"
+    },
     {
-      "src": "/(.*)",
-      "dest": "server/index.ts"
+      "source": "/(.*)",
+      "destination": "/dist/$1"
     }
   ]
 }
