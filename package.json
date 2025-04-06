@@ -4,7 +4,7 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node server/index.ts",
+    "dev": "ts-node-esm server/index.ts",
     "build": "cd client && npm install && npm run build",
     "start": "NODE_ENV=production node dist/index.js",
     "check": "tsc",
