@@ -1,5 +1,13 @@
-// api/index.ts
-import serverless from "serverless-http";
-import app from "../server/index";
+import { VercelRequest, VercelResponse } from '@vercel/node';
+import express from 'express';
 
-export default serverless(app);
+const app = express();
+
+app.get('/api/hello', (_req, res) => {
+  res.json({ message: 'Hello from Express on Vercel!' });
+});
+
+// Let Vercel handle the request
+export default (req: VercelRequest, res: VercelResponse) => {
+  return app(req, res);
+};
