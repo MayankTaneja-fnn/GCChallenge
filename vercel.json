@@ -1,10 +1,22 @@
 {
-  "buildCommand": "npm install --legacy-peer-deps && cd client && npm install --legacy-peer-deps && npm run build && cd .. && npm run build",
-  "outputDirectory": "client/dist",
-  "rewrites": [
+  "builds": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/index.ts"
+      "src": "server/index.ts",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "dist/client/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/server/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/dist/client/index.html"
     }
   ]
 }
