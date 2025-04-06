@@ -1,15 +1,10 @@
 {
-  "buildCommand": "cd client && npm install && npm run build && cd .. && npm run build",
-  "outputDirectory": "dist",
-  "ignoreCommand": "false",
+  "buildCommand": "npm install --legacy-peer-deps && cd client && npm install --legacy-peer-deps && npm run build && cd .. && npm run build",
+  "outputDirectory": "client/dist",
   "rewrites": [
     {
       "source": "/api/(.*)",
       "destination": "/api/index.ts"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/dist/$1"
     }
   ]
 }
