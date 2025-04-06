@@ -8,6 +8,9 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Check if Vercel is building (VERCEL env var is always true on Vercel)
+const isVercel = !!process.env.VERCEL;
+
 export default defineConfig(async () => {
   const plugins = [
     react(),
@@ -31,7 +34,9 @@ export default defineConfig(async () => {
     },
     root: __dirname,
     build: {
-      outDir: path.resolve(__dirname, "../server/public"), // ✅ key line
+      outDir: isVercel
+        ? path.resolve(__dirname, "dist") // ✅ Vercel expects this
+        : path.resolve(__dirname, "../server/public"), // ✅ local Express build
       emptyOutDir: true,
     },
   };
