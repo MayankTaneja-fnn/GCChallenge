@@ -1,5 +1,4 @@
-// index.ts
-
+// server/index.ts
 import express, { type Request, Response, NextFunction } from "express";
 import { createServer } from "http";
 import { registerRoutes } from "./routes";
@@ -44,11 +43,10 @@ app.use((req, res, next) => {
       log(logLine);
     }
   });
-
   next();
 });
 
-(async () => {
+const initializeApp = async () => {
   try {
     // Register API routes
     console.log("Before registering routes");
@@ -66,7 +64,6 @@ app.use((req, res, next) => {
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";
       res.status(status).json({ message });
-      // Log the error instead of rethrowing it
       log(`Error: ${message} (status: ${status})`);
     });
 
@@ -80,13 +77,21 @@ app.use((req, res, next) => {
       serveStatic(app);
     }
 
-    // Listen on port 5000 on all interfaces.
-    const port = 5000;
-    const host = "localhost";
-    server.listen(port, host, () => {
-      log(`Server running at http://${host}:${port}`);
-    });
+    // Only start the HTTP server if not running in a serverless environment.
+    // Vercel sets process.env.VERCEL, so skip listening in production.
+    if (!process.env.VERCEL) {
+      const port = 5000;
+      const host = "localhost";
+      server.listen(port, host, () => {
+        log(`Server running at http://${host}:${port}`);
+      });
+    }
   } catch (error) {
     console.error("Server failed to start:", error);
   }
-})();
+};
+
+// Initialize the application.
+initializeApp();
+
+export default app;
