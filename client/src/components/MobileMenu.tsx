@@ -1,21 +1,35 @@
 import { useEffect } from 'react';
 import { useAccessibilitySettings } from '../hooks/useAccessibilitySettings';
 
+type FontFamily = 'roboto' | 'opendyslexic' | 'arial';
+
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+const fontOptions: FontFamily[] = ['opendyslexic', 'roboto', 'arial'];
+
 export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const { theme, toggleTheme, fontFamily, setFontFamily } = useAccessibilitySettings();
 
-  // Disable body scroll when the menu is open
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
     return () => {
       document.body.style.overflow = '';
     };
   }, [isOpen]);
+
+  const isFontFamily = (value: string): value is FontFamily => {
+    return fontOptions.includes(value as FontFamily);
+  };
+
+  const handleFontChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedFont = e.target.value;
+    if (isFontFamily(selectedFont)) {
+      setFontFamily(selectedFont);
+    }
+  };
 
   return (
     <div 
@@ -103,11 +117,13 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   id="mobile-font-select" 
                   className="w-full p-3 border border-gray-300 rounded-lg text-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-green-300 transition"
                   value={fontFamily}
-                  onChange={(e) => setFontFamily(e.target.value)}
+                  onChange={handleFontChange}
                 >
-                  <option value="opendyslexic">OpenDyslexic</option>
-                  <option value="roboto">Roboto</option>
-                  <option value="arial">Arial</option>
+                  {fontOptions.map((font) => (
+                    <option key={font} value={font}>
+                      {font.charAt(0).toUpperCase() + font.slice(1)}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
